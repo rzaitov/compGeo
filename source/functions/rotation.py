@@ -2,7 +2,7 @@ import numpy as np
 from sph_to_cart import sph_to_cart
 from cart_to_sph import cart_to_sph
 
-def rotation(rtrd,rplg,rot):
+def rotation(rtrd, rplg, rot):
 	# Convert rotation axis to direction cosines. The
 	# convention here is X1 = North, X2 = East, X3 = Down
 	cn, ce, cd = sph_to_cart(rtrd, rplg)
