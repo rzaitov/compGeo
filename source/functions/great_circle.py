@@ -27,6 +27,7 @@ def great_circle(pole_n, pole_e, pole_d): # old parameters (strike, dip)
 		NED[:, i] = np.dot(R, north) # write result to ith column of the NED matrix
 
 	# there could be vectors with negative plunge due to impresice calcualtions
+	# have a look at an example https://github.com/rzaitov/compGeo/blob/master/source/notebooks/Unstable_Rotate.ipynb
 	mask = NED[2,:] < 0
 	NED[2, mask] = 0
 

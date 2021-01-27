@@ -29,12 +29,12 @@ def plot_eq_angle_stereonet(trdv, plgv, intrad):
 	
 	# Number of small circles
 	n_circles = int(pi // intrad)
-	
+
 	# small circles
 	# start at the North
 	trd = 0.0
 	plg = 0.0
-	
+
 	# If view direction is not the default (trdv=0,plgv=90)
 	# transform line to view direction
 	if trdv != 0.0 and plgv != east:
