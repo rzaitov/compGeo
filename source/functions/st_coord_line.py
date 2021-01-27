@@ -1,5 +1,6 @@
 import numpy as np
 from zero_two_pi import zero_two_pi
+from lower_hemisphere import lower_hemisphere
 
 # Some constants
 pi_4 = np.pi/4

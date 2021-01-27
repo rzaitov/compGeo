@@ -36,7 +36,7 @@ def small_circle(axis_trd, axis_plg, coneAngle, sttype):
 		angle = np.arccos(np.cos(coneAngle)/np.cos(axis_plg))
 		trd = ZeroTwoPi(axis_trd+angle)
 		plg = 0.0
-	
+
 	# To make the small circle, rotate the starting line
 	# 360 degrees in increments of 1 degree
 	rot = np.arange(0,361,1)*pi/180
