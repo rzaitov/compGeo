@@ -1,63 +1,33 @@
 import numpy as np
-from Rotate import Rotate as Rotate
-from StCoordLine import StCoordLine as StCoordLine
-from ZeroTwoPi import ZeroTwoPi as ZeroTwoPi
+from sph_to_cart import sph_to_cart
+from rotation import rotation_matrix
 
-def small_circle(axis_trd, axis_plg, coneAngle, sttype):
+def small_circle(axis_trd, axis_plg, cone_angle):
 	'''
 	SmallCircle computes the paths of a small circle defined
-	by its axis and cone angle, for an equal angle or equal
-	area stereonet of unit radius
-	
+	by its axis and cone angle
+
 	axis_trd = trend of axis
 	axis_plg = plunge of axis
-	coneAngle = cone angle
-	sttype = type of stereonet. 0 = equal angle, 1 = equal area
-	path1 and path2 = vectors with the x and y coordinates of
-				the points in the small circle paths
-	np1 and np2 = Number of points in path1 and path2
-	
-	NOTE: All angles should be in radians
-
-	SmallCircle uses functions ZeroTwoPi, StCoordLine and
-	Rotate
+	cone_angle = cone angle
 
 	Python function translated from the Matlab function
 	SmallCircle in Allmendinger et al. (2012)
 	'''
-	pi = np.pi
-	# Find where to start the small circle
-	if (axis_plg - coneAngle) >= 0.0:
-		trd = axis_trd
-		plg = axis_plg - coneAngle
-	else:
-		if axis_plg == pi/2.0:
-			axis_plg = axis_plg*0.9999
-		angle = np.arccos(np.cos(coneAngle)/np.cos(axis_plg))
-		trd = ZeroTwoPi(axis_trd+angle)
-		plg = 0.0
+
+	v = np.array(sph_to_cart(axis_trd, axis_plg - cone_angle))  # vector to rotate
+	axis_cn, axis_ce, axis_cd = sph_to_cart(axis_trd, axis_plg) # rotation axis
 
 	# To make the small circle, rotate the starting line
 	# 360 degrees in increments of 1 degree
-	rot = np.arange(0,361,1)*pi/180
-	path1 = np.zeros((rot.shape[0],2))
-	path2 = np.zeros((rot.shape[0],2))
-	np1 = 0
-	np2 = 0
-	for i in range(rot.shape[0]):
-		# Rotate line: Notice that the line is considered as
-		# a vector
-		rtrd , rplg = Rotate(axis_trd,axis_plg,rot[i],trd,plg,'v')
-		# Calculate stereonet coordinates and add to the 
-		# right path
-		# If plunge of rotated line is positive add to
-		# first path
-		if rplg >= 0.0:
-			path1[np1,0] , path1[np1,1] = StCoordLine(rtrd,rplg,sttype)
-			np1 = np1 +1
-		# Else add to the second path
-		else:
-			path2[np2,0] , path2[np2,1] = StCoordLine(rtrd,rplg,sttype)
-			np2 = np2 +1
-	
-	return path1, path2, np1, np2
+	n = 361 # number of angles from 0 to 360
+	NED = np.zeros((3, n))
+
+	for i in range(n):
+		rot = np.radians(i)
+		R = rotation_matrix(axis_cn, axis_ce, axis_cd, rot)
+		NED[:, i] = np.dot(R, v)
+
+	# select vectors with non negative plunge
+	mask = NED[2, :] >= 0
+	return NED[:, mask]

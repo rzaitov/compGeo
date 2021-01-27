@@ -1,3 +1,4 @@
+import math
 import numpy as np
 from rotation import rotation_matrix
 
@@ -18,9 +19,15 @@ def great_circle(pole_n, pole_e, pole_d): # old parameters (strike, dip)
 	# To make the great circle, rotate the North vector 180 degrees
 	# in increments of 1 degree
 	for i in range(0, n):
-		rad = np.radians(i)
+		# we should rotate in different directions for western/eastern poles
+		# in order to stay in lower hemisphere
+		rad = np.sign(-pole_e) * np.radians(i)
 		# Trace great circle
 		R = rotation_matrix(pole_n, pole_e, pole_d, rad)
 		NED[:, i] = np.dot(R, north) # write result to ith column of the NED matrix
 
-	return np.where(NED[2,:] < 0, -NED, NED) # invert column if Down coordinate is negative
+	# there could be vectors with negative plunge due to impresice calcualtions
+	mask = NED[2,:] < 0
+	NED[2, mask] = 0
+
+	return NED
