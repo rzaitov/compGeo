@@ -1,5 +1,6 @@
 import numpy as np
 from sph_to_cart import sph_to_cart
+from cart_to_sph import cart_to_sph
 from rotation import rotation_matrix
 
 def small_circle(axis_trd, axis_plg, cone_angle):
@@ -14,7 +15,6 @@ def small_circle(axis_trd, axis_plg, cone_angle):
 	Python function translated from the Matlab function
 	SmallCircle in Allmendinger et al. (2012)
 	'''
-
 	v = np.array(sph_to_cart(axis_trd, axis_plg - cone_angle))  # vector to rotate
 	axis_cn, axis_ce, axis_cd = sph_to_cart(axis_trd, axis_plg) # rotation axis
 
@@ -30,4 +30,6 @@ def small_circle(axis_trd, axis_plg, cone_angle):
 
 	# select vectors with non negative plunge
 	mask = NED[2, :] >= 0
-	return NED[:, mask]
+	NED = NED[:, mask]
+
+	return cart_to_sph(NED[0, :], NED[1, :], NED[2, :])

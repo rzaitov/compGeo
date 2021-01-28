@@ -1,16 +1,20 @@
 import math
 import numpy as np
+from sph_to_cart import sph_to_cart
+from cart_to_sph import cart_to_sph
 from rotation import rotation_matrix
 
-def great_circle(pole_n, pole_e, pole_d): # old parameters (strike, dip)
+def great_circle(pole_trd, pole_plg):
 	'''
 	GreatCircle computes the great circle path of a plane in NED coordinate system
 
-	pole_n, pole_e, pole_d - are direct cosines of the plane pole
+	pole_trd, pole_plg - pole of the plane
 
 	Python function translated from the Matlab function
 	GreatCircle in Allmendinger et al. (2012)
 	'''
+	pole_n, pole_e, pole_d = sph_to_cart(pole_trd, pole_plg)
+
 	# This vector will trace great circle from South to North pole
 	v = np.array([-1, 0, 0])
 
@@ -31,4 +35,4 @@ def great_circle(pole_n, pole_e, pole_d): # old parameters (strike, dip)
 	mask = NED[2,:] < 0
 	NED[2, mask] = 0
 
-	return NED
+	return cart_to_sph(NED[0, :], NED[1, :], NED[2, :])
