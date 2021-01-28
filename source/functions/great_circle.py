@@ -11,7 +11,8 @@ def great_circle(pole_n, pole_e, pole_d): # old parameters (strike, dip)
 	Python function translated from the Matlab function
 	GreatCircle in Allmendinger et al. (2012)
 	'''
-	north = np.array([1, 0, 0]) # this vector will be rotated
+	# This vector will trace great circle from South to North pole
+	v = np.array([-1, 0, 0])
 
 	n = 181 # number of angles from 0 to 180
 	NED = np.zeros((3, n))
@@ -21,10 +22,9 @@ def great_circle(pole_n, pole_e, pole_d): # old parameters (strike, dip)
 	for i in range(0, n):
 		# we should rotate in different directions for western/eastern poles
 		# in order to stay in lower hemisphere
-		rad = np.sign(-pole_e) * np.radians(i)
-		# Trace great circle
+		rad = np.sign(pole_e) * np.radians(i)
 		R = rotation_matrix(pole_n, pole_e, pole_d, rad)
-		NED[:, i] = np.dot(R, north) # write result to ith column of the NED matrix
+		NED[:, i] = np.dot(R, v) # write result to ith column of the NED matrix
 
 	# there could be vectors with negative plunge due to impresice calcualtions
 	# have a look at an example https://github.com/rzaitov/compGeo/blob/master/source/notebooks/Unstable_Rotate.ipynb

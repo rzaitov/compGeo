@@ -32,17 +32,8 @@ def plot_eq_angle_stereonet(trdv, plgv, intrad):
 
 	# Great circles
 	for i in range(0, n_circles+1):
-		if i <= n_circles:	# Western half
-			# Pole of great circle
-			trd = west
-			plg = i*intrad
-		else:				# Eastern half
-			# Pole of great circle
-			trd = east
-			plg = (i-n_circles)*intrad
-
+		trd, plg = west, i*intrad
 		trd, plg = geogr_to_view(trd, plg, trdv, plgv)
-
 		pole_n, pole_e, pole_d = sph_to_cart(trd, plg)
 		NED_GC = great_circle(pole_n, pole_e, pole_d)
 
@@ -58,7 +49,6 @@ def plot_stnet_ref_circle():
 	X = r * np.cos(TH)
 	Y = r * np.sin(TH)
 
-	# Make a larger figure
 	plt.plot(X,Y, 'k')
 	plt.axis([-1, 1, -1, 1])
 	plt.axis('equal')
