@@ -6,7 +6,6 @@ from lower_hemisphere import lower_hemisphere
 pi_4 = np.pi/4
 sqrt_2 = np.sqrt(2)
 
-## TODO: deprecated
 def eq_angle_stereonet(trd, plg):
 	trd, plg = lower_hemisphere(trd, plg)
 	plg_2 = plg / 2
@@ -16,9 +15,6 @@ def eq_angle_stereonet(trd, plg):
 	yp = np.tan(pi_4 - plg_2)*np.cos(trd)
 
 	return xp, yp
-
-def eq_angle_stereonet_transform(cn, ce, cd):
-	return ce / (1 + cd), cn / (1 + cd)
 
 def eq_area_stereonet(trd, plg):
 	trd, plg = lower_hemisphere(trd, plg)
