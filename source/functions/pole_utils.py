@@ -1,20 +1,18 @@
-import math
-from ZeroTwoPi import ZeroTwoPi
+import numpy as np
+from zero_two_pi import zero_two_pi
 
-east = math.pi/2
+east = np.pi/2
 
 # def tp2sd(trd, plg) – maybe shorter name is a better one
 def trend_plunge_to_strike_dip(trend, plunge):
-  if plg >= 0:
-    strike = east - plunge
-    dip = ZeroTwoPi(trend + east)
-  else: # Unusual case of pole pointing upwards
-    strike = east + plunge
-    dip = ZeroTwoPi(trend - east)
-  return (strike, dip)
+  condition = (plunge >= 0)
+  dip = np.where(condition, east - plunge, east + plunge)
+  strike = np.where(condition, trend + east, trend - east)
+  strike = zero_two_pi(strike)
+  return strike, dip
 
 # def sd2tp(strike, dip)
 def strike_dip_to_trend_plunge(strike, dip):
   plunge = east - dip;
-  trend = ZeroTwoPi (strike - east)
-  return (trend, plunge)
+  trend = zero_two_pi(strike - east)
+  return trend, plunge

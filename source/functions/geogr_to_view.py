@@ -33,7 +33,7 @@ def geogr_to_view(trd, plg, trdv, plgv):
 		sph_to_cart(trdv, plgv)
 	])
 
-	l = np.array(sph_to_cart(trd, plg, 0)) # Direction cosines of line
+	l = np.array(sph_to_cart(trd, plg)) # Direction cosines of line
 	t_cn, t_ce, t_cd = np.dot(T, l) # Transform line
 	rtrd, rplg = cart_to_sph(t_cn, t_ce, t_cd) # Line from new direction cosines
 
