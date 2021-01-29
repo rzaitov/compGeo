@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from geogr_to_view import geogr_to_view
 from small_circle import small_circle
 from great_circle import great_circle
-from pole_utils import trend_plunge_to_strike_dip
+from pole_utils import plane_from_pole
 
 # some constants
 pi = np.pi
@@ -52,8 +52,7 @@ def plot_stereonet(stereonet, intrad, trdv = 0, plgv = pi / 2):
 	poles = western + vertical + eastern
 	for trd, plg in poles:
 		trd, plg = geogr_to_view(trd, plg, trdv, plgv)
-		strike, dip = trend_plunge_to_strike_dip(trd, plg)
+		strike, dip = plane_from_pole(trd, plg)
 		GC_T, CG_P = great_circle(strike, dip)
 		X, Y = stereonet(GC_T, CG_P)
 		plt.plot(X, Y, color='gray', linewidth=0.5)
-

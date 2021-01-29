@@ -2,7 +2,7 @@ import numpy as np
 from sph_to_cart import sph_to_cart
 from cart_to_sph import cart_to_sph
 from rotation import rotation_matrix
-from pole_utils import strike_dip_to_trend_plunge
+from pole_utils import pole_from_plane
 
 def great_circle(strike, dip):
 	'''
@@ -13,7 +13,7 @@ def great_circle(strike, dip):
 	Python function translated from the Matlab function
 	GreatCircle in Allmendinger et al. (2012)
 	'''
-	pole_trd, pole_plg = strike_dip_to_trend_plunge(strike, dip)
+	pole_trd, pole_plg = pole_from_plane(strike, dip)
 	pole_n, pole_e, pole_d = sph_to_cart(pole_trd, pole_plg)
 
 	# This vector will trace great circle from South to North pole
