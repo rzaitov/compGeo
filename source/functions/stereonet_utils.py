@@ -29,7 +29,7 @@ def plot_stereonet(stereonet, intrad, trdv = 0, plgv = pi / 2):
 
 	# possible cone angles
 	north_cones = [(trd, (i+1)*intrad) for i in range(n_circles)]
-	south_cones = [(trd+pi, (i+1)*intrad) for i in range(n_circles)]
+	south_cones = [(trd, pi-(i+1)*intrad) for i in range(n_circles)]
 	equator_cone = [(trd, pi_2)]
 	cones = north_cones + equator_cone + south_cones
 	for trd, cone_angle in cones:
@@ -38,8 +38,8 @@ def plot_stereonet(stereonet, intrad, trdv = 0, plgv = pi / 2):
 		plt.plot(X, Y, color='gray', linewidth=0.5)
 
 	# Great circles
-	western = [(west, pi_2-(i+1)*intrad) for i in range(n_circles)]
-	eastern = [(east, pi_2-(i+1)*intrad) for i in range(n_circles)]
+	western = [(west, pi_2-i*intrad) for i in range(n_circles+1)]
+	eastern = [(east, pi_2-i*intrad) for i in range(n_circles+1)]
 	vertical = [(east, 0.0)]
 	poles = western + vertical + eastern
 	for trd, plg in poles:
