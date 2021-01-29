@@ -1,3 +1,4 @@
+import math
 import numpy as np
 import matplotlib.pyplot as plt
 from geogr_to_view import geogr_to_view
@@ -7,7 +8,8 @@ from pole_utils import trend_plunge_to_strike_dip
 
 # some constants
 pi = np.pi
-east = pi / 2.0
+pi_2 = pi / 2.0
+east = pi_2
 west = 3.0 * east
 
 def plot_stereonet(stereonet, intrad, trdv = 0, plgv = pi / 2):
@@ -18,35 +20,34 @@ def plot_stereonet(stereonet, intrad, trdv = 0, plgv = pi / 2):
 	plt.rcParams['figure.figsize'] = [15, 7.5]
 	plot_stnet_ref_circle()
 
-	# Number of small circles
-	n_circles = int(pi // intrad)
+	n_circles = pi_2 / intrad # number of circles in the half of a hemisphere
+	n_circles = int(n_circles) - 1 if n_circles.is_integer() else int(math.floor(n_circles))
 
-	# small circles start at the North
-	trd, plg = 0.0, 0.0
-	trd, plg = geogr_to_view(trd, plg, trdv, plgv)
+	# Small circles. Start at the North
+	n_trd, n_plg = 0.0, 0.0
+	trd, plg = geogr_to_view(n_trd, n_plg, trdv, plgv)
 
-	# Small circles
-	for i in range(1, n_circles+1):
-		cone_angle = i*intrad
+	# possible cone angles
+	north_cones = [(trd, (i+1)*intrad) for i in range(n_circles)]
+	south_cones = [(trd+pi, (i+1)*intrad) for i in range(n_circles)]
+	equator_cone = [(trd, pi_2)]
+	cones = north_cones + equator_cone + south_cones
+	for trd, cone_angle in cones:
 		SC_T, SC_P = small_circle(trd, plg, cone_angle)
 		X, Y = stereonet(SC_T, SC_P)
 		plt.plot(X, Y, color='gray', linewidth=0.5)
 
 	# Great circles
-	for plg in np.arange(pi/2.0-intrad, 0, -intrad):
-		plot_great_circle(west, plg, trdv, plgv, stereonet)
-	for plg in np.arange(pi/2.0-intrad, 0, -intrad):
-		plot_great_circle(east, plg, trdv, plgv, stereonet)
-	plot_great_circle(east, 0.0, trdv, plgv, stereonet)
-
-
-def plot_great_circle(trd, plg, trdv, plgv, stereonet):
-	trd, plg = geogr_to_view(trd, plg, trdv, plgv)
-	strike, dip = trend_plunge_to_strike_dip(trd, plg)
-	GC_T, CG_P = great_circle(strike, dip)
-
-	X, Y = stereonet(GC_T, CG_P)
-	plt.plot(X, Y, color='gray', linewidth=0.5)
+	western = [(west, pi_2-(i+1)*intrad) for i in range(n_circles)]
+	eastern = [(east, pi_2-(i+1)*intrad) for i in range(n_circles)]
+	vertical = [(east, 0.0)]
+	poles = western + vertical + eastern
+	for trd, plg in poles:
+		trd, plg = geogr_to_view(trd, plg, trdv, plgv)
+		strike, dip = trend_plunge_to_strike_dip(trd, plg)
+		GC_T, CG_P = great_circle(strike, dip)
+		X, Y = stereonet(GC_T, CG_P)
+		plt.plot(X, Y, color='gray', linewidth=0.5)
 
 
 def plot_stnet_ref_circle():
