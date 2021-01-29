@@ -36,11 +36,11 @@ def plot_stereonet(stereonet, intrad, trdv = 0, plgv = pi / 2):
 	trd, plg = geogr_to_view(n_trd, n_plg, trdv, plgv)
 
 	# possible cone angles
-	north_cones = [(trd, (i+1)*intrad) for i in range(n_circles)]
-	south_cones = [(trd, pi-(i+1)*intrad) for i in range(n_circles)]
-	equator_cone = [(trd, pi_2)]
+	north_cones = [(i+1)*intrad for i in range(n_circles)]
+	south_cones = [pi-(i+1)*intrad for i in range(n_circles)]
+	equator_cone = [pi_2]
 	cones = north_cones + equator_cone + south_cones
-	for trd, cone_angle in cones:
+	for cone_angle in cones:
 		SC_T, SC_P = small_circle(trd, plg, cone_angle)
 		X, Y = stereonet(SC_T, SC_P)
 		plt.plot(X, Y, color='gray', linewidth=0.5)
