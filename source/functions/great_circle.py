@@ -1,7 +1,7 @@
 import numpy as np
 from sph_to_cart import sph_to_cart
 from cart_to_sph import cart_to_sph
-from rotation import rotation_matrix
+from rotation import rotation
 from pole_utils import pole_from_plane
 
 def great_circle(strike, dip):
@@ -14,7 +14,6 @@ def great_circle(strike, dip):
 	GreatCircle in Allmendinger et al. (2012)
 	'''
 	pole_trd, pole_plg = pole_from_plane(strike, dip)
-	pole_n, pole_e, pole_d = sph_to_cart(pole_trd, pole_plg)
 
 	# This vector will trace great circle from South to North pole
 	v = np.array(sph_to_cart(strike, 0.0))
@@ -26,7 +25,7 @@ def great_circle(strike, dip):
 	# in increments of 1 degree
 	for i in range(0, n):
 		rad = np.radians(i)
-		R = rotation_matrix(pole_n, pole_e, pole_d, rad)
+		R = rotation(pole_trd, pole_plg, rad)
 		NED[:, i] = np.dot(R, v) # write result to ith column of the NED matrix
 
 	# there could be vectors with negative plunge due to impresice calcualtions

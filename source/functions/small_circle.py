@@ -1,7 +1,7 @@
 import numpy as np
 from sph_to_cart import sph_to_cart
 from cart_to_sph import cart_to_sph
-from rotation import rotation_matrix
+from rotation import rotation
 
 def small_circle(axis_trd, axis_plg, cone_angle):
 	'''
@@ -16,7 +16,6 @@ def small_circle(axis_trd, axis_plg, cone_angle):
 	SmallCircle in Allmendinger et al. (2012)
 	'''
 	v = np.array(sph_to_cart(axis_trd, axis_plg - cone_angle))  # vector to rotate
-	axis_cn, axis_ce, axis_cd = sph_to_cart(axis_trd, axis_plg) # rotation axis
 
 	# To make the small circle, rotate the starting line
 	# 360 degrees in increments of 1 degree
@@ -25,7 +24,7 @@ def small_circle(axis_trd, axis_plg, cone_angle):
 
 	for i in range(n):
 		rot = np.radians(i)
-		R = rotation_matrix(axis_cn, axis_ce, axis_cd, rot)
+		R = rotation(axis_trd, axis_plg, rot)
 		NED[:, i] = np.dot(R, v)
 
 	# select vectors with non negative plunge
