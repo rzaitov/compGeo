@@ -18,7 +18,15 @@ def plot_stereonet(stereonet, intrad, trdv = 0, plgv = pi / 2):
 
 	# Make a larger figure
 	plt.rcParams['figure.figsize'] = [15, 7.5]
-	plot_stnet_ref_circle()
+	plt.axis([-1, 1, -1, 1])
+	plt.axis('equal')
+	plt.axis('off')
+
+	r = 1.0 # radius pf stereonet
+	TH = np.radians(np.arange(0, 361, 1))
+	X = r * np.cos(TH)
+	Y = r * np.sin(TH)
+	plt.plot(X,Y, 'k')
 
 	n_circles = pi_2 / intrad # number of circles in the half of a hemisphere
 	n_circles = int(n_circles) - 1 if n_circles.is_integer() else int(math.floor(n_circles))
@@ -49,14 +57,3 @@ def plot_stereonet(stereonet, intrad, trdv = 0, plgv = pi / 2):
 		X, Y = stereonet(GC_T, CG_P)
 		plt.plot(X, Y, color='gray', linewidth=0.5)
 
-
-def plot_stnet_ref_circle():
-	r = 1.0 # radius pf stereonet
-	TH = np.radians(np.arange(0, 360, 1))
-	X = r * np.cos(TH)
-	Y = r * np.sin(TH)
-
-	plt.plot(X,Y, 'k')
-	plt.axis([-1, 1, -1, 1])
-	plt.axis('equal')
-	plt.axis('off')
