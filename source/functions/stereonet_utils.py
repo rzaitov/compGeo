@@ -55,7 +55,7 @@ def plot_stnet_ref_circle():
 	X = r * np.cos(TH)
 	Y = r * np.sin(TH)
 
-	plt.plot(X,Y, 'k', linewidth=0.5, alpha=0.1)
+	plt.plot(X,Y, 'k')
 	plt.axis([-1, 1, -1, 1])
 	plt.axis('equal')
 	plt.axis('off')
