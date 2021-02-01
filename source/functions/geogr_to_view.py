@@ -8,7 +8,7 @@ pi_2 = np.pi / 2.0
 
 def geogr_to_view(trd, plg, trdv, plgv):
 	'''
-	GeogrToView transforms a line from NED to View Direction
+	geogr_to_view transforms a line from NED to View Direction
 	coordinates
 	trd = trend of line
 	plg = plunge of line 
