@@ -6,7 +6,7 @@ from pole_utils import pole_from_plane
 
 def great_circle(strike, dip):
 	'''
-	GreatCircle computes the great circle path of a plane in NED coordinate system
+	great_circle computes the great circle path of a plane in NED coordinate system
 
 	pole_trd, pole_plg - pole of the plane
 
@@ -28,7 +28,7 @@ def great_circle(strike, dip):
 		R = rotation(pole_trd, pole_plg, rad)
 		NED[:, i] = np.dot(R, v) # write result to ith column of the NED matrix
 
-	# there could be vectors with negative plunge due to impresice calcualtions
+	# there could be vectors with negative plunge due to imprecise calcualtions
 	# have a look at an example https://github.com/rzaitov/compGeo/blob/master/source/notebooks/Unstable_Rotate.ipynb
 	mask = NED[2,:] < 0
 	NED[2, mask] = 0
