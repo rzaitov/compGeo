@@ -5,7 +5,7 @@ from rotation import rotation
 
 def small_circle(axis_trd, axis_plg, cone_angle):
 	'''
-	SmallCircle computes the paths of a small circle defined
+	small_circle computes the paths of a small circle defined
 	by its axis and cone angle
 
 	axis_trd = trend of axis
