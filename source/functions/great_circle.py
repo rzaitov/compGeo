@@ -6,7 +6,7 @@ from pole_utils import pole_from_plane
 
 def great_circle(strike, dip):
 	'''
-	great_circle computes the great circle path of a plane in NED coordinate system
+	great_circle computes the great circle path of a plane in spherical coordinate system
 
 	pole_trd, pole_plg - pole of the plane
 
