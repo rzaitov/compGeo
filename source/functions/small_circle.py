@@ -27,7 +27,7 @@ def small_circle(axis_trd, axis_plg, cone_angle):
 		R = rotation(axis_trd, axis_plg, rot)
 		NED[:, i] = np.dot(R, v)
 
-	# select vectors with non negative plunge
+	# select vectors with non-negative plunge
 	mask = NED[2, :] >= 0
 	NED = NED[:, mask]
 
