@@ -3,10 +3,10 @@ from zero_two_pi import zero_two_pi
 
 def cart_to_sph(cn, ce, cd):
 	'''
-	CartToSph converts from Cartesian to spherical coordinates
+	cart_to_sph converts from Cartesian to spherical coordinates
 
-	CartToSph(cn,ce,cd) returns the trend (trd)
-	and plunge (plg) of a line for input north (cn),
+	cart_to_sph(cn, ce, cd) returns the trend
+	and plunge of a line for input north (cn),
 	east (ce), and down (cd) direction cosines
 
 	NOTE: Trend and plunge are returned in radians
