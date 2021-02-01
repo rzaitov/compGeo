@@ -14,7 +14,7 @@ def cart_to_sph(cn, ce, cd):
 	Python function translated from the Matlab function
 	CartToSph in Allmendinger et al. (2012)
 	'''
-	# convert scallar into 1d array https://numpy.org/doc/stable/reference/generated/numpy.atleast_1d.html
+	# convert scalar into 1d array https://numpy.org/doc/stable/reference/generated/numpy.atleast_1d.html
 	cn, ce, cd = np.atleast_1d(cn, ce, cd)
 	if cn.shape != ce.shape or ce.shape != cd.shape:
 		raise ValueError("shapes of arguments are incompatible")
