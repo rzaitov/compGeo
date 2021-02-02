@@ -2,26 +2,26 @@ import math
 from sph_to_cart import sph_to_cart
 from cart_to_sph import cart_to_sph
 from pole_utils import pole_from_plane, plane_from_pole
-	
+
 def angle_from_lines(trd1, plg1, trd2, plg2):
 	cn1, ce1, cd1 = sph_to_cart(trd1, plg1)
 	cn2, ce2, cd2 = sph_to_cart(trd2, plg2)
 	return math.acos(cn1*cn2 + ce1*ce2 + cd1*cd2)
-	
+
 def angle_from_planes(str1, dip1, str2, dip2):
-	pole_trend_1, pole_plunge_1 = pole_from_plane(str1, dip1) # strike_dip_to_trend_plunge(str1, dip1) or sd2tp(str1, dip1)
-	pole_trend_2, pole_plunge_2 = pole_from_plane(str2, dip2) # strike_dip_to_trend_plunge(str2, dip2) or sd2tp(str2, dip2)
+	pole_trend_1, pole_plunge_1 = pole_from_plane(str1, dip1)
+	pole_trend_2, pole_plunge_2 = pole_from_plane(str2, dip2)
 	return angle_from_lines(pole_trend_1, pole_plunge_1, pole_trend_2, pole_plunge_2)
-	   
+
 def plane_from_lines(trd1, plg1, trd2, plg2):
 	pole_trd, pole_plg = orthogonal_line(trd1, plg1, trd2, plg2)
-	return plane_from_pole(pole_trd, pole_plg) # trend_plunge_to_strike_dip(trd, plg) or tp2sd(trd, plg)
-	
+	return plane_from_pole(pole_trd, pole_plg)
+
 def line_from_planes(str1, dip1, str2, dip2):
-	pole_trend_1, pole_plunge_1 = pole_from_plane(str1, dip1) # strike_dip_to_trend_plunge(str1, dip1) or sd2tp(str1, dip1)
-	pole_trend_2, pole_plunge_2 = pole_from_plane(str2, dip2) # strike_dip_to_trend_plunge(str2, dip2) or sd2tp(str2, dip2)
+	pole_trend_1, pole_plunge_1 = pole_from_plane(str1, dip1)
+	pole_trend_2, pole_plunge_2 = pole_from_plane(str2, dip2)
 	return orthogonal_line(pole_trend_1, pole_plunge_1, pole_trend_2, pole_plunge_2)
-	
+
 # find orthogonal line to given two lines
 def orthogonal_line(trd1, plg1, trd2, plg2):
 	cn1, ce1, cd1 = sph_to_cart(trd1, plg1)
