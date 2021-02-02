@@ -2,7 +2,7 @@ import numpy as np
 
 def down_plunge(trd, plg):
 	'''
-	down_plunge constructs the down plunge projection matrix from trend and plunge of the fold axis
+	down_plunge constructs the down-plunge projection matrix from trend and plunge of the fold axis
 	NOTE: trd and plg should be entered in radians
 	'''
 

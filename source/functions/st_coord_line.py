@@ -1,6 +1,5 @@
 import numpy as np
 from zero_two_pi import zero_two_pi
-from lower_hemisphere import lower_hemisphere
 
 # Some constants
 pi_4 = np.pi/4
@@ -25,3 +24,11 @@ def eq_area_stereonet(trd, plg):
 	yp = sqrt_2*np.sin(pi_4 - plg_2)*np.cos(trd)
 
 	return xp, yp
+
+# Take care of negative plunges
+def lower_hemisphere(trd, plg):
+	condition = plg < 0
+	trd = np.where(condition, zero_two_pi(trd + np.pi), trd)
+	plg = np.where(condition, -plg, plg)
+
+	return trd, plg
