@@ -47,5 +47,3 @@ def cart_to_sph(cn, ce, cd):
 		return trd.item(), plg.item()
 	else:
 		return trd, plg
-
-
