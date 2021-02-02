@@ -27,6 +27,8 @@ def three_point_utils(p1, p2, p3):
 
 	# make this vector a unit vector
 	mvcu = la.norm(vcu) # magnitude of the vector
+	if mvcu == 0:
+		raise ValueError('Error: points are collinear')
 	uvcu = vcu/mvcu # unit vector
 
 	# make the pole vector in NED coordinates
